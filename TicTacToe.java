@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- *	TicTacToeMove: ¾®×ÖÆåµÄÒÆ¶¯·½·¨ 
- *	TicTacToeGameState: ¾®×ÖÆåµÄÓÎÏ·×´Ì¬
+ *	TicTacToeMove: äº•å­—æ£‹çš„ç§»åŠ¨æ–¹æ³• 
+ *	TicTacToeGameState: äº•å­—æ£‹çš„æ¸¸æˆçŠ¶æ€
  */
 
 class TicTacToeMove {
 	
-	//ÒÆ¶¯µÄÈı¸öĞÔÖÊ: x×ø±ê ¡¢y×ø±ê¡¢value - ±íÊ¾ÕâÊÇË­ÏÂµÄÆå
+	//ç§»åŠ¨çš„ä¸‰ä¸ªæ€§è´¨: xåæ ‡ ã€yåæ ‡ã€value - è¡¨ç¤ºè¿™æ˜¯è°ä¸‹çš„æ£‹
 	public int x_coordinate;
 	public int y_coordinate;
 	public int value;
@@ -19,23 +19,20 @@ class TicTacToeMove {
 		this.y_coordinate = y_coordinate;
 		this.value = value;
 	}
-
-//    def __repr__(self): # repr()·½·¨´«ÈëÒ»¸ö¶ÔÏó£¬½«¶ÔÏó×ª»¯³ÉÎª¹©½âÊÍÆ÷¶ÁÈ¡µÄĞÎÊ½
-//    return "x:" + str(self.x_coordinate) + " y:" + str(self.y_coordinate) + " v:" + str(self.value)
 }
 
 class TicTacToeGameState {
 	
-	//Á½ÖÖ²»Í¬µÄÆå×Ó£¬x -> 1,o -> -1
-	private static final int x = 1;//µçÄÔ
-	private static final int o = -1;//Íæ¼Ò
+	//ä¸¤ç§ä¸åŒçš„æ£‹å­ï¼Œx -> 1,o -> -1
+	private static final int x = 1;//ç”µè„‘
+	private static final int o = -1;//ç©å®¶
 	
-	//ÆåÅÌµÄ×´Ì¬ĞÅÏ¢
+	//æ£‹ç›˜çš„çŠ¶æ€ä¿¡æ¯
 	public int [][] board;
 	public int next_to_move = 1;
 	public int board_size;
 	
-	//¹¹Ôìº¯Êı: ´«ÈëÆåÅÌ²ÎÊıstate + next_to_move
+	//æ„é€ å‡½æ•°: ä¼ å…¥æ£‹ç›˜å‚æ•°state + next_to_move
 	public TicTacToeGameState(int[][] state, int next_to_move) {
 		super();
 		this.board = state;
@@ -43,9 +40,9 @@ class TicTacToeGameState {
 		this.board_size = state.length;
 	}
 
-	//ÅĞ¶ÏÓÎÏ·½á¹û
+	//åˆ¤æ–­æ¸¸æˆç»“æœ
 	public Integer GameResult() {
-		int Diag1Sum = 0;//¼ÆËã¶Ô½ÇÏßÔªËØÖ®ºÍ
+		int Diag1Sum = 0;//è®¡ç®—å¯¹è§’çº¿å…ƒç´ ä¹‹å’Œ
 		int Diag2Sum = 0;
 		
 		for(int i = 0; i < board.length; i++)
@@ -65,7 +62,7 @@ class TicTacToeGameState {
 			return -1;
 		}
 		
-		int RowSum = 0;//¼ÆËãĞĞÖ®ºÍ
+		int RowSum = 0;//è®¡ç®—è¡Œä¹‹å’Œ
 		for(int i = 0; i < board.length; i++)
 		{
 			RowSum = 0;
@@ -101,8 +98,8 @@ class TicTacToeGameState {
 			}
 		}
 		
-		//Æ½¾ÖµÄ³öÏÖ
-//		int BoardSum = 0;//¼ÆËãÊı×éÖĞÈ«²¿µÄºÍ
+		//å¹³å±€çš„å‡ºç°(æœªè€ƒè™‘å¹³å±€å‡ºç°)
+//		int BoardSum = 0;//è®¡ç®—æ•°ç»„ä¸­å…¨éƒ¨çš„å’Œ
 //		for(int i = 0; i < board.length; i++)
 //		{
 //			for(int j = 0; j < board.length; j++)
@@ -115,11 +112,11 @@ class TicTacToeGameState {
 //			return 0;
 //		}
 		
-		//Èç¹ûÃ»ÓĞÕÒµ½ĞĞ\ÁĞ\¶Ô½ÇÏßÓĞ3\-3µÄ£¬¾ÍËµÃ÷ÓÎÏ·»¹Ã»ÓĞ½áÊø£¬¼ÌĞø½øĞĞÓÎÏ·
+		//å¦‚æœæ²¡æœ‰æ‰¾åˆ°è¡Œ\åˆ—\å¯¹è§’çº¿æœ‰3\-3çš„ï¼Œå°±è¯´æ˜æ¸¸æˆè¿˜æ²¡æœ‰ç»“æŸï¼Œç»§ç»­è¿›è¡Œæ¸¸æˆ
 		return null;
 	}
 	
-	//ÅĞ¶ÏÓÎÏ·ÊÇ·ñ½áÊø
+	//åˆ¤æ–­æ¸¸æˆæ˜¯å¦ç»“æŸ
 	public boolean IsGameOver() {
 
 		if(this.GameResult() == null)
@@ -132,16 +129,16 @@ class TicTacToeGameState {
 		}
 	}
 
-	//ÅĞ¶ÏÒÆ¶¯ÊÇ·ñºÏ·¨
+	//åˆ¤æ–­ç§»åŠ¨æ˜¯å¦åˆæ³•
 	public boolean IsMoveLegal(TicTacToeMove move) {
 		
-		//ÅĞ¶ÏÍæ¼ÒÒÆ¶¯ÊÇ²»ÊÇÕıÈ·µÄÏÂÒ»²½
+		//åˆ¤æ–­ç©å®¶ç§»åŠ¨æ˜¯ä¸æ˜¯æ­£ç¡®çš„ä¸‹ä¸€æ­¥
 		if(move.value != this.next_to_move)
 		{
 			return false;
 		}
 		
-		//ÅĞ¶ÏÊÇ²»ÊÇ×ßÔÚÆåÅÌÄÚ
+		//åˆ¤æ–­æ˜¯ä¸æ˜¯èµ°åœ¨æ£‹ç›˜å†…
 		if(!(move.x_coordinate >= 0 && move.x_coordinate < 3))
 		{
 			return false;
@@ -151,7 +148,7 @@ class TicTacToeGameState {
 			return false;
 		}
 		
-		//ÅĞ¶Ï×ßµÄÎ»ÖÃÊÇ²»ÊÇÒÑ¾­×ß¹ıÁË
+		//åˆ¤æ–­èµ°çš„ä½ç½®æ˜¯ä¸æ˜¯å·²ç»èµ°è¿‡äº†
 		if(this.board[move.x_coordinate][move.y_coordinate] == 0)
 		{
 			return true;
@@ -163,14 +160,14 @@ class TicTacToeGameState {
 		
 	}
 	
-	//ÒÆ¶¯Æå×Ó
+	//ç§»åŠ¨æ£‹å­
 	public TicTacToeGameState Move(TicTacToeMove move) throws MyException
 	{
 		if(this.IsMoveLegal(move) == false)
 		{
-			throw new MyException("¸Ã´ÎÒÆ¶¯²»ºÏ·¨");
+			throw new MyException("è¯¥æ¬¡ç§»åŠ¨ä¸åˆæ³•");
 		}
-		//ÒÆ¶¯ºÏ·¨£¬·µ»ØÒ»¸öĞÂµÄ×´Ì¬£¬µÃµ½ÏÂÒ»²½×ÓµÄ×´Ì¬(x->o | o->x)
+		//ç§»åŠ¨åˆæ³•ï¼Œè¿”å›ä¸€ä¸ªæ–°çš„çŠ¶æ€ï¼Œå¾—åˆ°ä¸‹ä¸€æ­¥å­çš„çŠ¶æ€(x->o | o->x)
 		int[][] new_board;
 		new_board = board;
 		new_board[move.x_coordinate][move.y_coordinate] = move.value;
@@ -186,10 +183,10 @@ class TicTacToeGameState {
 			
 	}
 	
-	//µÃµ½ºÏ·¨¶¯×÷µÄ¼¯ºÏ
+	//å¾—åˆ°åˆæ³•åŠ¨ä½œçš„é›†åˆ
 	public LinkedList<TicTacToeMove> get_legal_actions() {
 		
-		LinkedList<TicTacToeMove> indices = new <TicTacToeMove>LinkedList();//Move¶ÔÏóÊı×é
+		LinkedList<TicTacToeMove> indices = new <TicTacToeMove>LinkedList();//Moveå¯¹è±¡æ•°ç»„
 		int index = 0;
 		for(int i = 0; i < board.length; i++)
 		{
