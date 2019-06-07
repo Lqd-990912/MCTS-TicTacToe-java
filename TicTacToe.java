@@ -19,6 +19,9 @@ class TicTacToeMove {
 		this.y_coordinate = y_coordinate;
 		this.value = value;
 	}
+
+//    def __repr__(self): # repr()方法传入一个对象，将对象转化成为供解释器读取的形式
+//    return "x:" + str(self.x_coordinate) + " y:" + str(self.y_coordinate) + " v:" + str(self.value)
 }
 
 class TicTacToeGameState {
@@ -98,7 +101,7 @@ class TicTacToeGameState {
 			}
 		}
 		
-		//平局的出现(未考虑平局出现)
+		//平局的出现
 //		int BoardSum = 0;//计算数组中全部的和
 //		for(int i = 0; i < board.length; i++)
 //		{
@@ -184,6 +187,7 @@ class TicTacToeGameState {
 	}
 	
 	//得到合法动作的集合
+	@SuppressWarnings("unchecked")
 	public LinkedList<TicTacToeMove> get_legal_actions() {
 		
 		LinkedList<TicTacToeMove> indices = new <TicTacToeMove>LinkedList();//Move对象数组
@@ -203,24 +207,3 @@ class TicTacToeGameState {
 
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
