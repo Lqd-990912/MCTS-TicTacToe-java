@@ -1,31 +1,31 @@
 
 /**
- *	SearchÀà: MCTSËÑË÷Ëã·¨
+ *	Searchç±»: MCTSæœç´¢ç®—æ³•
  * */
 
 public class Search {
 	
-	//¸ù½Úµã
+	//æ ¹èŠ‚ç‚¹
 	public Nodes root;
 
-	//MCTSËÑË÷Ê÷µÄ¹¹Ôì·½·¨
+	//MCTSæœç´¢æ ‘çš„æ„é€ æ–¹æ³•
 	public Search(Nodes node) {
 		super();
 		this.root = node;
 	}
 
-	//Ëã·¨ºËĞÄ·½·¨
-	//ÕÒ×îÓÅÂä×Ó£¬simulations_numberÎªÄ£ÄâµÄÂä×Ó´ÎÊı
+	//ç®—æ³•æ ¸å¿ƒæ–¹æ³•
+	//æ‰¾æœ€ä¼˜è½å­ï¼Œsimulations_numberä¸ºæ¨¡æ‹Ÿçš„è½å­æ¬¡æ•°
 	public Nodes best_action(int simulations_number) 
 	{
 		for(int i = 0; i < simulations_number; i++)
 		{
-//			System.out.println("best_action·½·¨ÖĞµÄÑ­»·");
+//			System.out.println("best_actionæ–¹æ³•ä¸­çš„å¾ªç¯");
 			Nodes v = this.tree_policy();
 			Integer reward = v.rollout();
 			v.backpropagate(reward);
 		}
-		return this.root.best_child();
+		return this.root.best_child(0);// æ­¤å¤„çš„best_child()ä¼ è¿›å»çš„c=0
 	}
 	
 	public Nodes tree_policy()
@@ -46,7 +46,7 @@ public class Search {
 			}
 			else
 			{
-				current_node = current_node.best_child();
+				current_node = current_node.best_child();// æ­¤å¤„çš„best_child()ç”¨é»˜è®¤å‚æ•°
 			}
 		}
 		return current_node;
