@@ -4,12 +4,12 @@ import java.util.Random;
 import java.util.TreeMap;
 
 /**
- *	NodesÀà: ¹¹³ÉÁËMCTSµÄ½Úµã
+ *	Nodesç±»: æ„æˆäº†MCTSçš„èŠ‚ç‚¹
  * */
 
 public class Nodes {
 
-	//½ÚµãµÄÊôĞÔ
+	//èŠ‚ç‚¹çš„å±æ€§
 	public int number_of_visits = 0;
 	public TreeMap<Integer,Integer> results = new<Integer,Integer> TreeMap();
 	public TicTacToeGameState state;
@@ -27,8 +27,8 @@ public class Nodes {
 		results.put(1,0);
 	}
 
-	//½ÚµãµÄ·½·¨
-	//ÅĞ¶ÏÊÇ·ñÎªÖÕ¶Ë½Úµã(¾ÍÊÇ¿´ÓÎÏ·ÊÇ·ñ½áÊø)
+	//èŠ‚ç‚¹çš„æ–¹æ³•
+	//åˆ¤æ–­æ˜¯å¦ä¸ºç»ˆç«¯èŠ‚ç‚¹(å°±æ˜¯çœ‹æ¸¸æˆæ˜¯å¦ç»“æŸ)
 	public boolean is_termial_node() {
 		if(this.state.IsGameOver()) 
 		{
@@ -40,7 +40,7 @@ public class Nodes {
 		}
 	}
 
-	//MCTSºËĞÄ·½·¨
+	//MCTSæ ¸å¿ƒæ–¹æ³•
 	
 	public LinkedList<TicTacToeMove> untried_action() {
 			
@@ -49,7 +49,7 @@ public class Nodes {
 		
 	}
 	
-	//±»·ÃÎÊ½ÚµãµÄÍ³¼ÆÊı¾İ: q->×ÜÄ£Äâ½±Àø + n->×Ü·ÃÎÊ´ÎÊı ÓÃÓÚºóÃæµÄÀ´¼ÆËãUCTº¯Êı
+	//è¢«è®¿é—®èŠ‚ç‚¹çš„ç»Ÿè®¡æ•°æ®: q->æ€»æ¨¡æ‹Ÿå¥–åŠ± + n->æ€»è®¿é—®æ¬¡æ•° ç”¨äºåé¢çš„æ¥è®¡ç®—UCTå‡½æ•°
 	public int q() {
 		int wins = results.get(this.parent.state.next_to_move);
 		int loses = results.get(-1*this.parent.state.next_to_move);
@@ -60,7 +60,7 @@ public class Nodes {
 		return this.number_of_visits;
 	}
 	
-	//À©Õ¹: ¸ù¾İÒÑ¾­Ñ¡ÔñºÃµÄÎ´ÍêÈ«Õ¹¿ª½ÚµãÏòÏÂÀ©Õ¹
+	//æ‰©å±•: æ ¹æ®å·²ç»é€‰æ‹©å¥½çš„æœªå®Œå…¨å±•å¼€èŠ‚ç‚¹å‘ä¸‹æ‰©å±•
 	public Nodes expand() throws MyException {
 		TicTacToeMove action = untried_actions.getLast();
 		untried_actions.removeLast();
@@ -70,7 +70,7 @@ public class Nodes {
 		return child_node;
 	}
 	
-	//»Ø´«: rollout²ßÂÔº¯Êı£¬ÊäÈëÒ»¸ö×´Ì¬s,·µ»ØÒ»´ÎĞĞ¶¯a
+	//å›ä¼ : rolloutç­–ç•¥å‡½æ•°ï¼Œè¾“å…¥ä¸€ä¸ªçŠ¶æ€s,è¿”å›ä¸€æ¬¡è¡ŒåŠ¨a
 	public Integer rollout() {
 		TicTacToeGameState current_rollout_state = this.state;
 		while(!current_rollout_state.IsGameOver())
@@ -88,7 +88,7 @@ public class Nodes {
 		return current_rollout_state.GameResult();
 	}
 	
-	//·´Ïò´«²¥£¬Ò»²ã²ãµÄ¸üĞÂ¸¸½Úµã
+	//åå‘ä¼ æ’­ï¼Œä¸€å±‚å±‚çš„æ›´æ–°çˆ¶èŠ‚ç‚¹
 	public void backpropagate(Integer reward) {
 		this.number_of_visits += 1;
 		
@@ -102,7 +102,7 @@ public class Nodes {
 		
 	}
 	
-	//ÅĞ¶ÏÊÇ²»ÊÇÍêÈ«Õ¹¿ª½Úµã
+	//åˆ¤æ–­æ˜¯ä¸æ˜¯å®Œå…¨å±•å¼€èŠ‚ç‚¹
 	public boolean is_fully_expanded() {
 		if(this.untried_actions.size() == 0)
 		{
@@ -114,8 +114,8 @@ public class Nodes {
 		}
 	}
 	
-	//ÕÒ³öÏÂÒ»²½Ó¦¸Ã×ßµÄ×îÓÅÎ»ÖÃ(ÏÂÒ»¸ö½ÚµãÓ¦¸ÃÎªÄÄ¸ö)
-	//UCT(ÖÃĞÅÉÏÏŞº¯Êı) = q(×ÜÄ£Äâ½±Àø)/n(×Ü·ÃÎÊ´ÎÊı) + c*sqrt(log(n)/n)
+	//æ‰¾å‡ºä¸‹ä¸€æ­¥åº”è¯¥èµ°çš„æœ€ä¼˜ä½ç½®(ä¸‹ä¸€ä¸ªèŠ‚ç‚¹åº”è¯¥ä¸ºå“ªä¸ª)
+	//UCT(ç½®ä¿¡ä¸Šé™å‡½æ•°) = q(æ€»æ¨¡æ‹Ÿå¥–åŠ±)/n(æ€»è®¿é—®æ¬¡æ•°) + c*sqrt(log(n)/n)
 	public Nodes best_child() {
 
 		double c_param = 1.4;
@@ -135,15 +135,35 @@ public class Nodes {
 		}
 
 		/**
-		 *	bug1: µÚÒ»´Îµ÷ÓÃµÄÊ±ºò£¬children(´æ·ÅNodesµÄLinkedList)ÀïÃæÃ»ÓĞÖµ£¬ËùÒÔ³öÏÖÁËÔ½½çÒì³£¡£
+		 *	bug1: ç¬¬ä¸€æ¬¡è°ƒç”¨çš„æ—¶å€™ï¼Œchildren(å­˜æ”¾Nodesçš„LinkedList)é‡Œé¢æ²¡æœ‰å€¼ï¼Œæ‰€ä»¥å‡ºç°äº†è¶Šç•Œå¼‚å¸¸ã€‚
 		 *	
-		 *	µ«ÊÇpythonµÄÊµÏÖÖĞÓÖÊÇÓĞ¶«Î÷µÄ£¬ÄÇµ½µ×ËüÄÇ¸öchoices_weightsÀïÃæ·ÅµÄÊÇ¸öÉ¶£¬
-		 *	1.children¿Ï¶¨Ò²ÊÇÒ»¸ölist<Nodes>£¬
-		 *	2.np.argmax(choices_weights)Õâ¸ö¿Ï¶¨Ò²¾ÍÊÇÕÒ³öchoices_weights×î´óÖµµÄÏÂ±ê
-		 *	3.¸ù¾İchoices_weightsµÄ¼ÆËã¹ı³Ì£¬ºÜÃ÷ÏÔ¾ÍÊÇ¼ÆËãchildrenÀïÃæÊ÷½ÚµãµÄUCTº¯ÊıÖµ¡£
+		 *	ä½†æ˜¯pythonçš„å®ç°ä¸­åˆæ˜¯æœ‰ä¸œè¥¿çš„ï¼Œé‚£åˆ°åº•å®ƒé‚£ä¸ªchoices_weightsé‡Œé¢æ”¾çš„æ˜¯ä¸ªå•¥ï¼Œ
+		 *	1.childrenè‚¯å®šä¹Ÿæ˜¯ä¸€ä¸ªlist<Nodes>ï¼Œ
+		 *	2.np.argmax(choices_weights)è¿™ä¸ªè‚¯å®šä¹Ÿå°±æ˜¯æ‰¾å‡ºchoices_weightsæœ€å¤§å€¼çš„ä¸‹æ ‡
+		 *	3.æ ¹æ®choices_weightsçš„è®¡ç®—è¿‡ç¨‹ï¼Œå¾ˆæ˜æ˜¾å°±æ˜¯è®¡ç®—childrené‡Œé¢æ ‘èŠ‚ç‚¹çš„UCTå‡½æ•°å€¼ã€‚
 		 *	
-		 *	µ«ÊÇpythonµÄÄÇ¸öÓï·¨»¹ÊÇ²»ÖªµÀÔõÃ´¸ãµÄ¡£
+		 *	ä½†æ˜¯pythonçš„é‚£ä¸ªè¯­æ³•è¿˜æ˜¯ä¸çŸ¥é“æ€ä¹ˆæçš„ã€‚
 		 * */
+		
+		return this.children.get(max_weights_index);
+	}
+	
+	public Nodes best_child(double c_param) {
+		
+		double max_weights = 0;
+		int    max_weights_index = 0;
+		double tmp_weights;
+		for(int i = 0; i < this.children.size(); i++)
+		{
+			Nodes tmp = this.children.get(i);
+			tmp_weights = tmp.q() / tmp.n();
+			tmp_weights += c_param * Math.sqrt((2 * Math.log(this.n())) / tmp.n());
+			if(tmp_weights > max_weights)
+			{
+				max_weights = tmp_weights;
+				max_weights_index = i;
+			}
+		}
 		
 		return this.children.get(max_weights_index);
 	}
