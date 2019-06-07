@@ -1,26 +1,24 @@
 import java.util.Scanner;
 
 /**
- *	JAVAÊµÏÖMCTSËã·¨£¬²¢¿ÉÒÔÍê³ÉÈı×ÓÆåÓÎÏ·
- *
- *	1.RunGame: 
- *	main·½·¨ - ÓÎÏ·µÄÖ´ĞĞ
+ *	JAVAå®ç°MCTSç®—æ³•ï¼Œå¹¶å¯ä»¥å®Œæˆä¸‰å­æ£‹æ¸¸æˆ
+ *	mainæ–¹æ³• - æ¸¸æˆçš„æ‰§è¡Œ
  * */
 
 public class RunGame {
 
-	//³õÊ¼»¯²¿·Ö: ´´½¨ÆåÅÌÊı×éºÍÆåÅÌ¶ÔÏó¡¢´´½¨Ò»¿ÃMCTSÊ÷
-	//´´½¨Ò»¸ö×Ö·ûÊı×é£¬ÓÃÀ´±íÊ¾ÆåÅÌ
+	//åˆå§‹åŒ–éƒ¨åˆ†: åˆ›å»ºæ£‹ç›˜æ•°ç»„å’Œæ£‹ç›˜å¯¹è±¡ã€åˆ›å»ºä¸€æ£µMCTSæ ‘
+	//åˆ›å»ºä¸€ä¸ªå­—ç¬¦æ•°ç»„ï¼Œç”¨æ¥è¡¨ç¤ºæ£‹ç›˜
 	static int[][] state = new int[3][3];
 	
-	//ÊµÀı»¯Ò»¸öÆåÅÌ×´Ì¬¶ÔÏó
+	//å®ä¾‹åŒ–ä¸€ä¸ªæ£‹ç›˜çŠ¶æ€å¯¹è±¡
 	static TicTacToeGameState initialBoardState = new TicTacToeGameState(state,1);
 		
-	//ÊµÀı»¯Ò»¸ö¸ù½Úµã + ÓÉ¸ù½Úµãroot½¨Á¢ÆğMCTSÊ÷
+	//å®ä¾‹åŒ–ä¸€ä¸ªæ ¹èŠ‚ç‚¹ + ç”±æ ¹èŠ‚ç‚¹rootå»ºç«‹èµ·MCTSæ ‘
 	static Nodes root = new Nodes(initialBoardState,null);
 	static Search mcts = new Search(root);
 		
-	 //´òÓ¡³öÆåÅÌµÄ×´Ì¬ĞÅÏ¢
+	 //æ‰“å°å‡ºæ£‹ç›˜çš„çŠ¶æ€ä¿¡æ¯
 	private static void ShowState(int[][] board)
 	{
 		for(int i = 0; i < 3; i++)
@@ -47,15 +45,15 @@ public class RunGame {
 		System.out.println("______________________________");
 	}
 	
-	//ÊäÈëÍæ¼ÒµÄÒÆ¶¯ ²¢ ÅĞ¶ÏÎ»ÖÃÊÇ²»ÊÇºÏ·¨µÄ
+	//è¾“å…¥ç©å®¶çš„ç§»åŠ¨ å¹¶ åˆ¤æ–­ä½ç½®æ˜¯ä¸æ˜¯åˆæ³•çš„
 	private static TicTacToeMove GetAction(TicTacToeGameState state) {
 		
-		//ÊäÈëÍæ¼ÒÒªÒÆ¶¯µÄÎ»ÖÃ
+		//è¾“å…¥ç©å®¶è¦ç§»åŠ¨çš„ä½ç½®
 		System.out.print("Your move: ");
 		String input = new Scanner(System.in).next();
 		String[] buff = input.split(",");
 		
-		//½«Î»ÖÃ»ñÈ¡²¢ÊµÀı»¯Ò»¸ömove¶ÔÏó
+		//å°†ä½ç½®è·å–å¹¶å®ä¾‹åŒ–ä¸€ä¸ªmoveå¯¹è±¡
 		int x = Integer.parseInt(buff[0]);
 		int y = Integer.valueOf(buff[1]).intValue();
 		TicTacToeMove move = new TicTacToeMove(x,y,-1);
@@ -68,7 +66,7 @@ public class RunGame {
 		return move;
 	}
 	
-	//ÅĞ¶Ï±ÈÈü½á¹û
+	//åˆ¤æ–­æ¯”èµ›ç»“æœ
 	private static int JudgeGameResult(TicTacToeGameState state)
 	{
 		if(state.IsGameOver())
@@ -98,36 +96,36 @@ public class RunGame {
 		/**
 		 * 	bug1: best_action -> tree_policy -> best_child -> 
 		 * 
-		 * 	µÚÒ»´Îµ÷ÓÃµÄÊ±ºò£¬children(´æ·ÅNodesµÄLinkedList)ÀïÃæÃ»ÓĞÖµ£¬ËùÒÔ³öÏÖÁËÔ½½çÒì³£¡£
-		 * 	µ«ÊÇpythonµÄÊµÏÖÖĞÓÖÊÇÓĞ¶«Î÷µÄ£¬ÄÇµ½µ×ËüÄÇ¸öchoices_weightsÀïÃæ·ÅµÄÊÇ¸öÉ¶£¬
-		 * 	1.children¿Ï¶¨Ò²ÊÇÒ»¸ölist<Nodes>£¬
-		 * 	2.np.argmax(choices_weights)Õâ¸ö¿Ï¶¨Ò²¾ÍÊÇÕÒ³öchoices_weights×î´óÖµµÄÏÂ±ê
-		 * 	3.¸ù¾İchoices_weightsµÄ¼ÆËã¹ı³Ì£¬ºÜÃ÷ÏÔ¾ÍÊÇ¼ÆËãchildrenÀïÃæÊ÷½ÚµãµÄUCTº¯ÊıÖµ¡£
+		 * 	ç¬¬ä¸€æ¬¡è°ƒç”¨çš„æ—¶å€™ï¼Œchildren(å­˜æ”¾Nodesçš„LinkedList)é‡Œé¢æ²¡æœ‰å€¼ï¼Œæ‰€ä»¥å‡ºç°äº†è¶Šç•Œå¼‚å¸¸ã€‚
+		 * 	ä½†æ˜¯pythonçš„å®ç°ä¸­åˆæ˜¯æœ‰ä¸œè¥¿çš„ï¼Œé‚£åˆ°åº•å®ƒé‚£ä¸ªchoices_weightsé‡Œé¢æ”¾çš„æ˜¯ä¸ªå•¥ï¼Œ
+		 * 	1.childrenè‚¯å®šä¹Ÿæ˜¯ä¸€ä¸ªlist<Nodes>ï¼Œ
+		 * 	2.np.argmax(choices_weights)è¿™ä¸ªè‚¯å®šä¹Ÿå°±æ˜¯æ‰¾å‡ºchoices_weightsæœ€å¤§å€¼çš„ä¸‹æ ‡
+		 * 	3.æ ¹æ®choices_weightsçš„è®¡ç®—è¿‡ç¨‹ï¼Œå¾ˆæ˜æ˜¾å°±æ˜¯è®¡ç®—childrené‡Œé¢æ ‘èŠ‚ç‚¹çš„UCTå‡½æ•°å€¼ã€‚
 		 * 	
-		 * 	µ«ÊÇpythonµÄÄÇ¸öÓï·¨»¹ÊÇ²»ÖªµÀÔõÃ´¸ãµÄ¡£
+		 * 	ä½†æ˜¯pythonçš„é‚£ä¸ªè¯­æ³•è¿˜æ˜¯ä¸çŸ¥é“æ€ä¹ˆæçš„ã€‚
 		 * */
 		
-		//Ä£Äâ×îÓÅÂä×Ó1000´Î
+		//æ¨¡æ‹Ÿæœ€ä¼˜è½å­1000æ¬¡
 		Nodes best_node = mcts.best_action(10);
 		TicTacToeGameState c_state = best_node.state;
 		int c_board[][] = c_state.board;
 		
-		//Ö÷º¯Êı(ÔËĞĞÓÎÏ·µÄÖ÷Ìå)
+		//ä¸»å‡½æ•°(è¿è¡Œæ¸¸æˆçš„ä¸»ä½“)
 		try 
 		{
-			//µçÄÔÏÂÁËµÚÒ»¸ö×ÓÖ®ºóµÄ×´Ì¬
+			//ç”µè„‘ä¸‹äº†ç¬¬ä¸€ä¸ªå­ä¹‹åçš„çŠ¶æ€
 			ShowState(c_board);
 			
-			//Íæ¼ÒºÍµçÄÔ¿ªÊ¼Ñ­»·ÏÂÆå
+			//ç©å®¶å’Œç”µè„‘å¼€å§‹å¾ªç¯ä¸‹æ£‹
 			while(true)
 			{
-				//Íæ¼ÒÏÂÆå£¬Ö±½ÓÊäÈëÒªÏÂµÄÎ»ÖÃ£¬È»ºóÊä³öÏÂÖ®ºóµÄ×´Ì¬
+				//ç©å®¶ä¸‹æ£‹ï¼Œç›´æ¥è¾“å…¥è¦ä¸‹çš„ä½ç½®ï¼Œç„¶åè¾“å‡ºä¸‹ä¹‹åçš„çŠ¶æ€
 				TicTacToeMove move1 = GetAction(c_state);
 				c_state = c_state.Move(move1);
 				c_board = c_state.board;
 				ShowState(c_board);
 				
-				//µçÄÔÏÂÆå£¬¸úµÚÒ»´ÎÏÂÆåÒ»Ñù£¬Ä£Äâ1000´ÎÕÒ³ö×îÓÅÂä×Ó
+				//ç”µè„‘ä¸‹æ£‹ï¼Œè·Ÿç¬¬ä¸€æ¬¡ä¸‹æ£‹ä¸€æ ·ï¼Œæ¨¡æ‹Ÿ1000æ¬¡æ‰¾å‡ºæœ€ä¼˜è½å­
 				TicTacToeGameState board_state = new TicTacToeGameState(c_board,1);
 				root = new Nodes(board_state,null);
 				mcts = new Search(root);
@@ -137,7 +135,7 @@ public class RunGame {
 				c_board = c_state.board;
 				ShowState(c_board);
 				
-				//Ã¿´ÎÏÂÍêÒ»¾ÖÆå¶¼ĞèÒªÅĞ¶ÏÓÎÏ·ÊÇ²»ÊÇ¿ÉÒÔ½áÊøÁË
+				//æ¯æ¬¡ä¸‹å®Œä¸€å±€æ£‹éƒ½éœ€è¦åˆ¤æ–­æ¸¸æˆæ˜¯ä¸æ˜¯å¯ä»¥ç»“æŸäº†
 				if(JudgeGameResult(c_state) == 1)
 				{
 					break;
